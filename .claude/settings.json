@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "email-mcp": {
+      "command": "node",
+      "args": ["/mnt/c/AI_Employee_Vault/mcp-servers/email-mcp/index.js"],
+      "env": {
+        "GMAIL_USER": "sharjeeel4@gmail.com",
+        "GMAIL_APP_PASSWORD": "${GMAIL_APP_PASSWORD}"
+      }
+    }
+  }
+}

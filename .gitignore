@@ -1,0 +1,46 @@
+# ── Credentials & Secrets ─────────────────────────────────────────────────────
+credentials.json
+client_secret*.json
+service_account*.json
+*.pickle
+*.p12
+*.pem
+.env
+.env.*
+*.env
+secrets/
+
+# ── Auth Tokens & Session Files ───────────────────────────────────────────────
+token.*
+oauth_token
+linkedin_session/
+**/session.json
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[oc]
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+wheels/
+
+# ── Node / MCP Servers ────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+
+# ── Logs & Runtime State ──────────────────────────────────────────────────────
+Logs/*.log
+processed_emails.txt
+
+# ── OS & Editor ───────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ── Obsidian (machine-specific workspace state) ───────────────────────────────
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
