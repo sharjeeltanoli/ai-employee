@@ -53,10 +53,13 @@ def save_counters(counters: dict) -> None:
 
 
 def get_task_files() -> list:
-    """Return names of files currently sitting in In_Progress/."""
+    """Return names of visible task files currently sitting in In_Progress/."""
     if not IN_PROGRESS.exists():
         return []
-    return [f.name for f in sorted(IN_PROGRESS.iterdir()) if f.is_file()]
+    return [
+        f.name for f in sorted(IN_PROGRESS.iterdir())
+        if f.is_file() and not f.name.startswith(".")
+    ]
 
 
 def allow_stop(session_id: str, counters: dict, reason: str) -> None:
