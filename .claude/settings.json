@@ -8,5 +8,19 @@
         "GMAIL_APP_PASSWORD": "${GMAIL_APP_PASSWORD}"
       }
     }
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /mnt/c/AI_Employee_Vault/.claude/hooks/stop_hook.py",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
   }
 }
