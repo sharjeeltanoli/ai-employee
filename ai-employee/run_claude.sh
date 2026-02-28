@@ -30,7 +30,7 @@ timestamp() {
     # Working directory is set to the vault so project context is loaded
     cd "$SCRIPT_DIR" || exit 1
 
-    claude \
+    /root/.local/bin/claude \
         --print \
         --dangerously-skip-permissions \
         "/process-files"

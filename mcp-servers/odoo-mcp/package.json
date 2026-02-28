@@ -1,0 +1,14 @@
+{
+  "name": "odoo-mcp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "description": "MCP server for Odoo 17 JSON-RPC API",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.0"
+  }
+}
