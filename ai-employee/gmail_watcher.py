@@ -6,8 +6,12 @@ from pathlib import Path
 from datetime import datetime
 import os
 
+from audit_logger import audit_success, audit_failure
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+ACTOR = "gmail_watcher"
 
 VAULT_PATH = Path("/mnt/c/AI_Employee_Vault")
 NEEDS_ACTION = VAULT_PATH / "Needs_Action"
@@ -48,6 +52,17 @@ status: pending
 - [ ] Move to /Done when processed
 """)
     logger.info(f"Action file created: {filepath.name}")
+    audit_success(
+        "email_received",
+        actor=ACTOR,
+        target=filepath.name,
+        parameters={
+            "from": sender,
+            "subject": subject,
+            "email_id": eid.decode(),
+            "preview_chars": len(body),
+        },
+    )
 
 def main():
     logger.info("Starting Gmail Watcher...")
@@ -101,6 +116,12 @@ def main():
 
         except Exception as e:
             logger.error(f"Error: {e}")
+            audit_failure(
+                "email_poll",
+                actor=ACTOR,
+                target="imap.gmail.com",
+                detail=str(e),
+            )
             time.sleep(30)
 
 if __name__ == "__main__":
