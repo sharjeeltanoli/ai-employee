@@ -13,13 +13,13 @@ logger = logging.getLogger(__name__)
 
 ACTOR = "gmail_watcher"
 
-VAULT_PATH = Path("/mnt/c/AI_Employee_Vault")
+VAULT_PATH = Path(os.environ.get("VAULT_PATH", str(Path.home() / "ai-employee-vault")))
 NEEDS_ACTION = VAULT_PATH / "Needs_Action"
-GMAIL_USER = "sharjeeel4@gmail.com"
+GMAIL_USER = os.environ.get("GMAIL_USER", "sharjeeel4@gmail.com")
 GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")
 
 # Track processed emails in a file so they persist between restarts
-PROCESSED_FILE = Path("/mnt/c/AI_Employee_Vault/ai-employee/processed_emails.txt")
+PROCESSED_FILE = VAULT_PATH / "ai-employee" / "processed_emails.txt"
 
 def load_processed():
     if PROCESSED_FILE.exists():
