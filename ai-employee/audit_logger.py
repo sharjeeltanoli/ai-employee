@@ -34,6 +34,7 @@ Action types (conventions):
 """
 
 import json
+import os
 import threading
 from datetime import datetime, timezone
 from pathlib import Path
@@ -43,7 +44,7 @@ from typing import Any, Optional
 # Config
 # ---------------------------------------------------------------------------
 
-VAULT_PATH = Path("/mnt/c/AI_Employee_Vault")
+VAULT_PATH = Path(os.environ.get("VAULT_PATH", str(Path.home() / "ai-employee-vault")))
 AUDIT_FILE = VAULT_PATH / "Logs" / "audit.json"
 
 # Thread lock — safe for multi-threaded watchers appending simultaneously
