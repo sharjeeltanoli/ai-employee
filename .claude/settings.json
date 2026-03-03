@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /mnt/c/AI_Employee_Vault/.claude/hooks/stop_hook.py",
+            "command": "python3 /home/ubuntu/ai-employee/.claude/hooks/stop_hook.py",
             "timeout": 30
           }
         ]

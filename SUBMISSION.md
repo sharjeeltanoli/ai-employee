@@ -4,13 +4,14 @@
 
 ---
 
-## Tier Achieved: Gold
+## Tier Achieved: Platinum
 
 | Tier | Status |
 |------|--------|
 | Bronze | Complete |
 | Silver | Complete |
 | Gold | Complete (Twitter pending IP unblock — see Known Issues) |
+| Platinum | Complete |
 
 ---
 
@@ -33,6 +34,15 @@
 - [x] **Ralph Wiggum stop hook** (`.claude/hooks/stop_hook.py`) — self-looping agent: blocks Claude exit if `In_Progress/` is non-empty, re-injects `/process-files`, safety ceiling of 10 iterations; logs every decision to `Logs/ralph_wiggum.log`
 - [x] **`In_Progress/` mid-flight tracking** — tasks moved here are guaranteed to be re-processed before Claude exits
 - [x] **`/ceo-briefing` skill** — full Monday morning CEO report: exec summary, weekly stats table, completed items, pending actions, bottlenecks, proactive suggestions, system health; archived to `Briefings/YYYY-MM-DD_CEO_Briefing.md`
+
+### Platinum — Cloud VM 24/7 Deployment
+- [x] **Cloud VM deployment** — AI Employee runs on an always-on Oracle Cloud VM (Ubuntu), not a developer laptop
+- [x] **PM2 process management** (`scripts/setup_pm2.sh`) — `gmail_watcher` and `filesystem_watcher` managed by PM2; auto-restart on crash, startup persistence across reboots
+- [x] **Vault sync** (`scripts/vault_sync.sh`) — rsync-based bidirectional vault synchronization for cloud ↔ local backup; cron-schedulable
+- [x] **Health monitoring** (`scripts/health_monitor.sh`) — checks PM2 process status, disk usage, recent log activity, and sends alert emails when services are degraded
+- [x] **Cloud setup automation** (`scripts/cloud_setup.sh`) — one-shot provisioning script for fresh Ubuntu VM: installs uv, Node.js, PM2, Playwright deps, configures env vars
+- [x] **Env-based VAULT_PATH** — all scripts and hooks use `$VAULT_PATH` env var instead of hardcoded WSL paths; works identically on cloud VM and local dev
+- [x] **Stop hook cloud-ready** — Ralph Wiggum hook updated to use `VAULT_PATH` and correct cloud paths, verified running on live VM
 
 ### Gold — CRM Integration & Twitter
 - [x] **Twitter/X Playwright poster** (`twitter_poster.py`) — Firefox headless (harder to fingerprint than Chromium); handles Twitter's 3-step login flow (email → username verify → password); step screenshots to `Logs/twitter_*.png`; 280-char guard; watch mode via `Drop_Here/twitter_*.txt`
@@ -253,7 +263,11 @@ Every credential is a runtime environment variable. Browser sessions (which cont
 
 ### 7. WSL-first engineering
 
-Every sharp edge of running Playwright and Watchdog under WSL2 has been solved: `PollingObserver` for reliable file events, `--no-sandbox --disable-dev-shm-usage` for Chromium, Firefox headless for Twitter's stricter bot detection. This runs on a developer laptop, not a managed cloud VM.
+Every sharp edge of running Playwright and Watchdog under WSL2 has been solved: `PollingObserver` for reliable file events, `--no-sandbox --disable-dev-shm-usage` for Chromium, Firefox headless for Twitter's stricter bot detection.
+
+### 8. Production cloud deployment with PM2 and health monitoring
+
+The AI Employee runs 24/7 on a cloud VM — not just a developer laptop. PM2 ensures watchers restart on crash and survive reboots. `health_monitor.sh` checks process liveness, disk pressure, and log freshness, sending alert emails when anything looks wrong. `vault_sync.sh` provides rsync-based backup. A single `cloud_setup.sh` provisions a fresh Ubuntu VM from zero to running in minutes.
 
 ---
 
@@ -277,6 +291,11 @@ AI_Employee_Vault/
 │   ├── settings.json               # MCP registration + hooks config
 │   ├── commands/                   # /process-files, /create-plan, /ceo-briefing, /ceo-audit
 │   └── hooks/stop_hook.py          # Ralph Wiggum self-loop
+├── scripts/
+│   ├── cloud_setup.sh              # One-shot VM provisioning script
+│   ├── setup_pm2.sh                # PM2 process manager config for watchers
+│   ├── health_monitor.sh           # Service health checks + alert emails
+│   └── vault_sync.sh               # rsync-based cloud ↔ local vault sync
 ├── Company_Handbook.md             # AI rulebook
 ├── Business_Goals.md               # KPI targets
 ├── Dashboard.md                    # Live activity log

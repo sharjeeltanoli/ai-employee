@@ -16,12 +16,13 @@ Protocol:
 
 import json
 import logging
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
 
 # ── Config ────────────────────────────────────────────────────────────────────
-VAULT        = Path("/mnt/c/AI_Employee_Vault")
+VAULT        = Path(os.environ.get("VAULT_PATH", str(Path.home() / "ai-employee-vault")))
 IN_PROGRESS  = VAULT / "In_Progress"
 LOG_FILE     = VAULT / "Logs" / "ralph_wiggum.log"
 COUNTER_FILE = Path("/tmp/ralph_wiggum_iterations.json")
